@@ -3,7 +3,7 @@
 
 // Step 1: Scan for a device with 0xffe5 service
 navigator.bluetooth.requestDevice({
-  filters: [{ services: [0xffe5] }]
+  filters: [{ services: [6E400001-B5A3-F393-­E0A9-­E50E24DCCA9E] }]
 })
   .then(function(device) {
     // Step 2: Connect to it
@@ -11,16 +11,11 @@ navigator.bluetooth.requestDevice({
   })
   .then(function(server) {
     // Step 3: Get the Service
-    return server.getPrimaryService(0xffe5);
+    return server.getPrimaryService(6E400001-B5A3-F393-­E0A9-­E50E24DCCA9E);
   })
   .then(function(service) {
     // Step 4: get the Characteristic
-    return service.getCharacteristic(0xffe9);
-  })
-  .then(function(characteristic) {
-    // Step 5: Write to the characteristic
-    var data = new Uint8Array([0xbb, 0x25, 0x05, 0x44]);
-    return characteristic.writeValue(data);
+    return service.getCharacteristic(0x0003);
   })
   .catch(function(error) {
      // And of course: error handling!
