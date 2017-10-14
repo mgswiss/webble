@@ -191,6 +191,10 @@ function connect() {
     },
     function success() {
       log('> Bluetooth Device connected. Try disconnect it now.MG/n');
+      log('> Name:             ' + bluetoothDevice.name);
+    log('> Id:               ' + bluetoothDevice.id);
+    log('> HERE');
+    log('> Connected:        ' + bluetoothDevice.gatt.connected);
       log('> SENSIEL RESEARCH');
   
   },
