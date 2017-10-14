@@ -189,7 +189,7 @@ function connectDeviceAndCacheCharacteristics() {
     log('> Connected:        ' + bluetoothDevice.gatt.connected);
     log('> SENSIEL RESEARCH');
     log('Getting TX Power Service...');
-    return server.getPrimaryService('tx_power');
+    return server.getPrimaryService('battery_service');
   })
   .then(service => {
     log('Getting TX Power Level Characteristic...');
@@ -303,5 +303,8 @@ function onDisconnected() {
   }
 </script>
 
+
+    
+    
   </body>
 </html>
