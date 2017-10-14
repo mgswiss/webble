@@ -202,8 +202,8 @@ function connect() {
     return service.getCharacteristic('tx_power');
   })
   then(characteristic => {
-    RXPowerCharacteristic = characteristic;
-    RXPowerCharacteristic.addEventListener('characteristicvaluechanged',
+    TXPowerCharacteristic = characteristic;
+    TXPowerCharacteristic.addEventListener('characteristicvaluechanged',
         handleTXPowerChanged);
   });
  
