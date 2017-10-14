@@ -182,13 +182,14 @@ function connectDeviceAndCacheCharacteristics() {
   }
 
   log('Connecting to GATT Server...');
-  return bluetoothDevice.gatt.connect();
-        log('> Name:             ' + bluetoothDevice.name);
-      log('> Id:               ' + bluetoothDevice.id);
-      log('> HERE');
-      log('> Connected:        ' + bluetoothDevice.gatt.connected);
-      log('> SENSIEL RESEARCH');
+  return bluetoothDevice.gatt.connect()
+      
   .then(server => {
+    log('> Name:             ' + bluetoothDevice.name);
+    log('> Id:               ' + bluetoothDevice.id);
+    log('> HERE');
+    log('> Connected:        ' + bluetoothDevice.gatt.connected);
+    log('> SENSIEL RESEARCH');
     log('Getting TX Power Service...');
     return server.getPrimaryService('tx_power');
   })
