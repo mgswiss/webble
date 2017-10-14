@@ -1,19 +1,4 @@
 <!doctype html>
-<!--
-Copyright 2017 Google Inc. All Rights Reserved.
-
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
-
-  http://www.apache.org/licenses/LICENSE-2.0
-
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
--->
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -104,21 +89,11 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
 </script>
 
 
-<p>This sample illustrates the use of the Web Bluetooth API to read battery
-level and be notified of changes from a nearby Bluetooth Device advertising
-Battery information with Bluetooth Low Energy. You may want
-to try this demo with the BLE Peripheral
-Simulator App from the <a target="_blank"
-href="https://play.google.com/store/apps/details?id=io.github.webbluetoothcg.bletestperipheral">Google
-Play Store</a> and check out the <a
-href="read-characteristic-value-changed-async-await.html">Read Characteristic Value Changed
-Sample (Async Await)</a> sample.</p>
+<p>WEB BLE</p>
 
-<p>Here, we use the <code>characteristicvaluechanged</code> event listener to
-handle reading battery level characteristic value. This event listener will
-optionally handle upcoming notifications as well.</p>
 
-<button id="readBatteryLevel">Read Bluetooth Device's Battery Level</button>
+
+<button id="readTXPowerLevel">Read Bluetooth Device's TXPower Level</button>
 <button id="startNotifications" disabled>Start Notifications</button>
 <button id="stopNotifications" disabled>Stop Notifications</button>
 <button id="reset">Reset Bluetooth Device</button>
@@ -175,14 +150,14 @@ optionally handle upcoming notifications as well.</p>
   
     
       <script>var bluetoothDevice;
-var batteryLevelCharacteristic;
+var TXPowerLevelCharacteristic;
 
-function onReadBatteryLevelButtonClick() {
+function onReadTXPowerLevelButtonClick() {
   return (bluetoothDevice ? Promise.resolve() : requestDevice())
   .then(connectDeviceAndCacheCharacteristics)
   .then(_ => {
-    log('Reading Battery Level...');
-    return batteryLevelCharacteristic.readValue();
+    log('Reading TX Power Level...');
+    return TXPowerLevelCharacteristic.readValue();
   })
   .catch(error => {
     log('Argh! ' + error);
@@ -194,7 +169,7 @@ function requestDevice() {
   return navigator.bluetooth.requestDevice({
    // filters: [...] <- Prefer filters to save energy & show relevant devices.
       acceptAllDevices: true,
-      optionalServices: ['battery_service']})
+      optionalServices: ['tx_power']})
   .then(device => {
     bluetoothDevice = device;
     bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
@@ -202,24 +177,24 @@ function requestDevice() {
 }
 
 function connectDeviceAndCacheCharacteristics() {
-  if (bluetoothDevice.gatt.connected && batteryLevelCharacteristic) {
+  if (bluetoothDevice.gatt.connected && TXPowerLevelCharacteristic) {
     return Promise.resolve();
   }
 
   log('Connecting to GATT Server...');
   return bluetoothDevice.gatt.connect()
   .then(server => {
-    log('Getting Battery Service...');
-    return server.getPrimaryService('battery_service');
+    log('Getting TX Power Service...');
+    return server.getPrimaryService('tx_power');
   })
   .then(service => {
-    log('Getting Battery Level Characteristic...');
-    return service.getCharacteristic('battery_level');
+    log('Getting TX Power Level Characteristic...');
+    return service.getCharacteristic('tx_power');
   })
   .then(characteristic => {
-    batteryLevelCharacteristic = characteristic;
-    batteryLevelCharacteristic.addEventListener('characteristicvaluechanged',
-        handleBatteryLevelChanged);
+    TXPowerLevelCharacteristic = characteristic;
+    TXPowerLevelCharacteristic.addEventListener('characteristicvaluechanged',
+        handleTXPowerLevelChanged);
     document.querySelector('#startNotifications').disabled = false;
     document.querySelector('#stopNotifications').disabled = true;
   });
@@ -228,14 +203,14 @@ function connectDeviceAndCacheCharacteristics() {
 /* This function will be called when `readValue` resolves and
  * characteristic value changes since `characteristicvaluechanged` event
  * listener has been added. */
-function handleBatteryLevelChanged(event) {
-  let batteryLevel = event.target.value.getUint8(0);
-  log('> Battery Level is ' + batteryLevel + '%');
+function handleTXPowerLevelChanged(event) {
+  let TXPowerLevel = event.target.value.getUint8(0);
+  log('> TX Power Level is ' + TXPowerLevel + '%');
 }
 
 function onStartNotificationsButtonClick() {
-  log('Starting Battery Level Notifications...');
-  batteryLevelCharacteristic.startNotifications()
+  log('Starting TX Power Level Notifications...');
+  TXPowerLevelCharacteristic.startNotifications()
   .then(_ => {
     log('> Notifications started');
     document.querySelector('#startNotifications').disabled = true;
@@ -247,8 +222,8 @@ function onStartNotificationsButtonClick() {
 }
 
 function onStopNotificationsButtonClick() {
-  log('Stopping Battery Level Notifications...');
-  batteryLevelCharacteristic.stopNotifications()
+  log('Stopping TX Power Level Notifications...');
+  TXPowerLevelCharacteristic.stopNotifications()
   .then(_ => {
     log('> Notifications stopped');
     document.querySelector('#startNotifications').disabled = false;
@@ -260,10 +235,10 @@ function onStopNotificationsButtonClick() {
 }
 
 function onResetButtonClick() {
-  if (batteryLevelCharacteristic) {
-    batteryLevelCharacteristic.removeEventListener('characteristicvaluechanged',
-        handleBatteryLevelChanged);
-    batteryLevelCharacteristic = null;
+  if (TXPowerLevelCharacteristic) {
+    TXPowerLevelCharacteristic.removeEventListener('characteristicvaluechanged',
+        handleTXPowerLevelChanged);
+    TXPowerLevelCharacteristic = null;
   }
   // Note that it doesn't disconnect device.
   bluetoothDevice = null;
@@ -282,121 +257,11 @@ function onDisconnected() {
   
 
   
-    <h3>JavaScript Snippet</h3>
-  
-
-  
-    <figure class="highlight"><pre><code class="language-js" data-lang="js"><span class="kd">var</span> <span class="nx">bluetoothDevice</span><span class="p">;</span>
-<span class="kd">var</span> <span class="nx">batteryLevelCharacteristic</span><span class="p">;</span>
-
-<span class="kd">function</span> <span class="nx">onReadBatteryLevelButtonClick</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">bluetoothDevice</span> <span class="p">?</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">()</span> <span class="p">:</span> <span class="nx">requestDevice</span><span class="p">())</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">connectDeviceAndCacheCharacteristics</span><span class="p">)</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Reading Battery Level...'</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">batteryLevelCharacteristic</span><span class="p">.</span><span class="nx">readValue</span><span class="p">();</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Argh! '</span> <span class="o">+</span> <span class="nx">error</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">requestDevice</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'Requesting any Bluetooth Device...'</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nx">navigator</span><span class="p">.</span><span class="nx">bluetooth</span><span class="p">.</span><span class="nx">requestDevice</span><span class="p">({</span>
-   <span class="c1">// filters: [...] &lt;- Prefer filters to save energy &amp; show relevant devices.</span>
-      <span class="na">acceptAllDevices</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
-      <span class="na">optionalServices</span><span class="p">:</span> <span class="p">[</span><span class="s1">'battery_service'</span><span class="p">]})</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">device</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">bluetoothDevice</span> <span class="o">=</span> <span class="nx">device</span><span class="p">;</span>
-    <span class="nx">bluetoothDevice</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'gattserverdisconnected'</span><span class="p">,</span> <span class="nx">onDisconnected</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">connectDeviceAndCacheCharacteristics</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">bluetoothDevice</span><span class="p">.</span><span class="nx">gatt</span><span class="p">.</span><span class="nx">connected</span> <span class="o">&amp;&amp;</span> <span class="nx">batteryLevelCharacteristic</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">Promise</span><span class="p">.</span><span class="nx">resolve</span><span class="p">();</span>
-  <span class="p">}</span>
-
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'Connecting to GATT Server...'</span><span class="p">);</span>
-  <span class="k">return</span> <span class="nx">bluetoothDevice</span><span class="p">.</span><span class="nx">gatt</span><span class="p">.</span><span class="nx">connect</span><span class="p">()</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">server</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Getting Battery Service...'</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">server</span><span class="p">.</span><span class="nx">getPrimaryService</span><span class="p">(</span><span class="s1">'battery_service'</span><span class="p">);</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">service</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Getting Battery Level Characteristic...'</span><span class="p">);</span>
-    <span class="k">return</span> <span class="nx">service</span><span class="p">.</span><span class="nx">getCharacteristic</span><span class="p">(</span><span class="s1">'battery_level'</span><span class="p">);</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">characteristic</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">batteryLevelCharacteristic</span> <span class="o">=</span> <span class="nx">characteristic</span><span class="p">;</span>
-    <span class="nx">batteryLevelCharacteristic</span><span class="p">.</span><span class="nx">addEventListener</span><span class="p">(</span><span class="s1">'characteristicvaluechanged'</span><span class="p">,</span>
-        <span class="nx">handleBatteryLevelChanged</span><span class="p">);</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#startNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#stopNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="cm">/* This function will be called when `readValue` resolves and
- * characteristic value changes since `characteristicvaluechanged` event
- * listener has been added. */</span>
-<span class="kd">function</span> <span class="nx">handleBatteryLevelChanged</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
-  <span class="kd">let</span> <span class="nx">batteryLevel</span> <span class="o">=</span> <span class="nx">event</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">value</span><span class="p">.</span><span class="nx">getUint8</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'&gt; Battery Level is '</span> <span class="o">+</span> <span class="nx">batteryLevel</span> <span class="o">+</span> <span class="s1">'%'</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onStartNotificationsButtonClick</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'Starting Battery Level Notifications...'</span><span class="p">);</span>
-  <span class="nx">batteryLevelCharacteristic</span><span class="p">.</span><span class="nx">startNotifications</span><span class="p">()</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'&gt; Notifications started'</span><span class="p">);</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#startNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#stopNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Argh! '</span> <span class="o">+</span> <span class="nx">error</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onStopNotificationsButtonClick</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'Stopping Battery Level Notifications...'</span><span class="p">);</span>
-  <span class="nx">batteryLevelCharacteristic</span><span class="p">.</span><span class="nx">stopNotifications</span><span class="p">()</span>
-  <span class="p">.</span><span class="nx">then</span><span class="p">(</span><span class="nx">_</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'&gt; Notifications stopped'</span><span class="p">);</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#startNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">false</span><span class="p">;</span>
-    <span class="nb">document</span><span class="p">.</span><span class="nx">querySelector</span><span class="p">(</span><span class="s1">'#stopNotifications'</span><span class="p">).</span><span class="nx">disabled</span> <span class="o">=</span> <span class="kc">true</span><span class="p">;</span>
-  <span class="p">})</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Argh! '</span> <span class="o">+</span> <span class="nx">error</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onResetButtonClick</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="nx">batteryLevelCharacteristic</span><span class="p">)</span> <span class="p">{</span>
-    <span class="nx">batteryLevelCharacteristic</span><span class="p">.</span><span class="nx">removeEventListener</span><span class="p">(</span><span class="s1">'characteristicvaluechanged'</span><span class="p">,</span>
-        <span class="nx">handleBatteryLevelChanged</span><span class="p">);</span>
-    <span class="nx">batteryLevelCharacteristic</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-  <span class="p">}</span>
-  <span class="c1">// Note that it doesn't disconnect device.</span>
-  <span class="nx">bluetoothDevice</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'&gt; Bluetooth Device reset'</span><span class="p">);</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">onDisconnected</span><span class="p">()</span> <span class="p">{</span>
-  <span class="nx">log</span><span class="p">(</span><span class="s1">'&gt; Bluetooth Device disconnected'</span><span class="p">);</span>
-  <span class="nx">connectDeviceAndCacheCharacteristics</span><span class="p">()</span>
-  <span class="p">.</span><span class="k">catch</span><span class="p">(</span><span class="nx">error</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">log</span><span class="p">(</span><span class="s1">'Argh! '</span> <span class="o">+</span> <span class="nx">error</span><span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span></code></pre></figure>
-  
-
-
-
+   
 <script>
-  document.querySelector('#readBatteryLevel').addEventListener('click', function() {
+  document.querySelector('#readTXPowerLevel').addEventListener('click', function() {
     if (isWebBluetoothEnabled()) {
-      onReadBatteryLevelButtonClick();
+      onReadTXPowerLevelButtonClick();
     }
   });
 
@@ -436,16 +301,6 @@ function onDisconnected() {
 
 
     
-    <script>
-      /* jshint ignore:start */
-      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-      ga('create', 'UA-53563471-1', 'auto');
-      ga('send', 'pageview');
-      /* jshint ignore:end */
-    </script>
+    
   </body>
 </html>
-
