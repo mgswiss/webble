@@ -193,7 +193,7 @@ function connect() {
       log('> Bluetooth Device connected. Try disconnect it now.MG/n');
       
       let options = {};
-      o  log('Requesting Bluetooth Device...');
+      
   log('with ' + JSON.stringify(options));
   navigator.bluetooth.requestDevice(options)
   .then(device => {
