@@ -154,7 +154,7 @@ function onButtonClick() {
   .then(device => {
     bluetoothDevice = device;
     bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
-    connect();
+    //connect();
   })
   .catch(error => {
     log('Argh! ' + error);
