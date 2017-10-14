@@ -191,23 +191,7 @@ function connect() {
     },
     function success() {
       log('> Bluetooth Device connected. Try disconnect it now.MG/n');
-      
-      let options = {};
-      
-  log('with ' + JSON.stringify(options));
-  navigator.bluetooth.requestDevice(options)
-  .then(device => {
-    log('> Name:             ' + device.name);
-    log('> Id:               ' + device.id);
-    log('> Connected:        ' + device.gatt.connected);
-  })
-  .catch(error => {
-    log('Argh! ' + error);
-  });
-    
       log('> SENSIEL RESEARCH');
-   
-  
   
   },
     function fail() {
