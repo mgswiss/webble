@@ -186,7 +186,7 @@ function onButtonClick() {
 }
 
 function connect() {
-  if (bluetoothDevice.gatt.connected && TXPOWERCharacteristic) {
+  if (bluetoothDevice.gatt.connected && TXPowerCharacteristic) {
     return Promise.resolve();
   }
   exponentialBackoff(3 /* max retries */, 2 /* seconds delay */,
