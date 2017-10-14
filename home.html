@@ -186,6 +186,9 @@ function onButtonClick() {
 }
 
 function connect() {
+  if (bluetoothDevice.gatt.connected && TXPOWERCharacteristic) {
+    return Promise.resolve();
+  }
   exponentialBackoff(3 /* max retries */, 2 /* seconds delay */,
     function toTry() {
       time('Connecting to Bluetooth Device... ');
@@ -194,7 +197,16 @@ function connect() {
     log('TX POWER LEVEL Service...');
     return server.getPrimaryService('tx_power');
   })
-    
+  .then(service => {
+    log('Getting TX POWER Level Characteristic...');
+    return service.getCharacteristic('tx_power');
+  })
+  then(characteristic => {
+    RXPowerCharacteristic = characteristic;
+    RXPowerCharacteristic.addEventListener('characteristicvaluechanged',
+        handleTXPowerChanged);
+  });
+ 
     },
     function success() {
       log('> Bluetooth Device connected. Try disconnect it now.MG/n');
@@ -214,14 +226,6 @@ function connect() {
       time('Failed to reconnect.');
     });
   
-  
-  
-  
-  
-  
-  
-  
-  
 }
 
 function onDisconnected() {
@@ -229,6 +233,13 @@ function onDisconnected() {
   connect();
 }
 
+        
+  function handleTXPowerChanged(event) {
+  let TXPowerLevel = event.target.value.getUint8(0);
+  log('> TX Power Level is ' + TXPowerLevel + '%');
+}
+        
+        
       
         
 /* Utils */
