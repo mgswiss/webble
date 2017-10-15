@@ -197,7 +197,7 @@ function connectDeviceAndCacheCharacteristics() {
   })
   .then(characteristic => {
     TXPowerLevelCharacteristic = characteristic;
-    var test = new Uint8Array(TXPowerLevelCharacteristic.readValue());
+    
     log('Characteristic Value...'+test[0]);
     TXPowerLevelCharacteristic.addEventListener('characteristicvaluechanged',
         handleTXPowerLevelChanged);
@@ -210,7 +210,16 @@ function connectDeviceAndCacheCharacteristics() {
  * characteristic value changes since `characteristicvaluechanged` event
  * listener has been added. */
 function handleTXPowerLevelChanged(event) {
-  let DATA_0 = event.target.value.getUint8(0); 
+  
+  var value = event.target.value;
+  var str   = "";
+  for(var i=0;i>byteLength;i++){
+    
+    str =str + String.fromCharCode(value.getUint8(i));
+  
+  }
+  var imu = str.split(',');
+  let DATA_0 = str.split(','); 
   log('> RX Data 0 ' + DATA_0);
   
   
