@@ -217,7 +217,10 @@ function handleTXPowerLevelChanged(event) {
   
  		var value 	= event.target.value;
 		var str 	= "";
-
+                let byteLength =20;
+	let row =0.0;
+	let pitch =0.0;
+	let yaw =0.0;
 		//concat and split string for roll, pitch, yaw (e.g. "-0.58,2.20,328.76")
 		for(var i=0; i<byteLength; i++){
 			str = str + String.fromCharCode(value.getUint8(i));
