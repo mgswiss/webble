@@ -126,7 +126,7 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
   };
 </script>
 
-<h3>Live Output</h3>
+<h3>Live Output 1</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -209,10 +209,10 @@ function connectDeviceAndCacheCharacteristics() {
  * listener has been added. */
 function handleTXPowerLevelChanged(event) {
   let DATA = event.target.value.getUint16(0);
-  //let DATA1 = event.target.value.getUint8(1);
-  // let DATA2 = event.target.value.getUint8(2);
-  //let DATA3 = event.target.value.getUint8(3);
-  //log('> RX Data ' + DATA + DATA1 + DATA2 + DATA3);
+  let DATA1 = event.target.value.getUint8(1);
+  let DATA2 = event.target.value.getUint8(2);
+  let DATA3 = event.target.value.getUint8(3);
+  log('> RX Data ' + DATA + DATA1 + DATA2 + DATA3);
   log('> RX Data ' + DATA);
 }
 
