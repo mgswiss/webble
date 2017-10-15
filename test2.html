@@ -151,10 +151,7 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
     
       <script>var bluetoothDevice;
 var TXPowerLevelCharacteristic;
-let yaw   = 0.0;
-let pitch = 0.0;
-let roll = 0.0;
-let byteLength =20;
+
 
 function onReadTXPowerLevelButtonClick() {
   return (bluetoothDevice ? Promise.resolve() : requestDevice())
@@ -224,7 +221,7 @@ function handleTXPowerLevelChanged(event) {
 		//concat and split string for roll, pitch, yaw (e.g. "-0.58,2.20,328.76")
 		for(var i=0; i<byteLength; i++){
 			//str = str + String.fromCharCode(value.getUint8(i));
-			value=value+value.getUint8(i);
+			value = value + value.getUint8(i);
 		}
 		//var imu = str.split(',');
 
@@ -234,7 +231,7 @@ function handleTXPowerLevelChanged(event) {
                 //yaw = parseFloat(imu[2]);
   
   
-  log('> RX DATA STRINGS ' value);
+  log('> RX DATA STRINGS ' +value);
   
   
  
