@@ -126,7 +126,7 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
   };
 </script>
 
-<h3>Live Output 9</h3>
+<h3>Live Output 10</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -208,13 +208,13 @@ function connectDeviceAndCacheCharacteristics() {
  * characteristic value changes since `characteristicvaluechanged` event
  * listener has been added. */
 function handleTXPowerLevelChanged(event) {
-  let DATA_A = event.target.value.getUint16(4); 
+  let DATA_A = event.target.value.getUint8(0); 
   log('> RX Data A ' + DATA_A);
-    let DATA_B = event.target.value.getUint16(5); 
+    let DATA_B = event.target.value.getFloat8(0); 
   log('> RX Data B ' + DATA_B);
-    let DATA_C = event.target.value.getUint16(6); 
+    let DATA_C = event.target.value.getUin8(1); 
   log('> RX Data C ' + DATA_C);
-    let DATA_D = event.target.value.getUint16(7); 
+    let DATA_D = event.target.value.getFlaot8(1); 
   log('> RX Data D ' + DATA_D);
   
 }
