@@ -216,16 +216,17 @@ function connectDeviceAndCacheCharacteristics() {
 function handleTXPowerLevelChanged(event) {
   
  		var value 	= event.target.value;
-		var str 	= "";
+		//var str 	= "";
                 let byteLength =20;
-	let row =0.0;
-	let pitch =0.0;
-	let yaw =0.0;
+	//let row =0.0;
+	//let pitch =0.0;
+	//let yaw =0.0;
 		//concat and split string for roll, pitch, yaw (e.g. "-0.58,2.20,328.76")
 		for(var i=0; i<byteLength; i++){
-			str = str + String.fromCharCode(value.getUint8(i));
+			//str = str + String.fromCharCode(value.getUint8(i));
+			value=value+value.getUint8(i);
 		}
-		var imu = str.split(',');
+		//var imu = str.split(',');
 
 		//update globals
 		//roll = 77.123456;
@@ -233,7 +234,7 @@ function handleTXPowerLevelChanged(event) {
                 //yaw = parseFloat(imu[2]);
   
   
-  log('> RX DATA STRINGS ' + roll + pitch + yaw);
+  log('> RX DATA STRINGS ' value);
   
   
  
