@@ -229,7 +229,7 @@ function handleTXPowerLevelChanged(event) {
 		//roll = 77.123456;
 		//pitch = parseFloat(imu[1]);
                 //yaw = parseFloat(imu[2]);
-    value= value.getUint8(0)+value.getUint8(1);
+    value= value.getUint8(0)+value.getUint8(1)+value.getUint8(2)+value.getUint8(3);
   
   log('> RX DATA STRINGS ' +value);
   
