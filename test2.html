@@ -197,6 +197,7 @@ function connectDeviceAndCacheCharacteristics() {
   })
   .then(characteristic => {
     TXPowerLevelCharacteristic = characteristic;
+    log('Characteristic Value...'+TXPowerLevelCharacteristic);
     TXPowerLevelCharacteristic.addEventListener('characteristicvaluechanged',
         handleTXPowerLevelChanged);
     document.querySelector('#startNotifications').disabled = false;
