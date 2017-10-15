@@ -208,7 +208,7 @@ function connectDeviceAndCacheCharacteristics() {
  * characteristic value changes since `characteristicvaluechanged` event
  * listener has been added. */
 function handleTXPowerLevelChanged(event) {
-  let TXPowerLevel = event.target.value.getFlaot64(0);
+  let TXPowerLevel = event.target.value.getFloat64(0);
   log('> RX Data ' + TXPowerLevel + '%');
 }
 
