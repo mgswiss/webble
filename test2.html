@@ -169,7 +169,7 @@ function requestDevice() {
   return navigator.bluetooth.requestDevice({
    // filters: [...] <- Prefer filters to save energy & show relevant devices.
       acceptAllDevices: true,
-      optionalServices: ['device_informatiom']})
+      optionalServices: ['device_information']})
   .then(device => {
     bluetoothDevice = device;
     bluetoothDevice.addEventListener('gattserverdisconnected', onDisconnected);
@@ -189,7 +189,7 @@ function connectDeviceAndCacheCharacteristics() {
     log('> Connected:        ' + bluetoothDevice.gatt.connected);
     log('> SENSIEL RESEARCH');
     log('Getting TX Power Service...');
-    return server.getPrimaryService('device_informatiom');
+    return server.getPrimaryService('device_information');
   })
   .then(service => {
     log('Getting TX Power Level Characteristic...');
