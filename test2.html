@@ -193,7 +193,7 @@ function connectDeviceAndCacheCharacteristics() {
   })
   .then(service => {
     log('Getting TX Power Level Characteristic...');
-    return service.getCharacteristic('0x0002');
+    return service.getCharacteristic('0003');
   })
   .then(characteristic => {
     TXPowerLevelCharacteristic = characteristic;
