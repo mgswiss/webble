@@ -219,8 +219,13 @@ function handleTXPowerLevelChanged(event) {
   
   }
   var imu = str.split(',');
-  let DATA_0 = str.split(','); 
-  log('> RX Data 0 ' + DATA_0);
+  //let DATA_0 = str.split(',');
+  roll 		= parseFloat(imu[0]);
+		pitch 		= parseFloat(imu[1]);
+yaw = parseFloat(imu[2]);
+  
+  
+  log('> RX DATA STRINGS ' + roll +pitch+yaw);
   
   
  
