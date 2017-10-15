@@ -220,7 +220,7 @@ function handleTXPowerLevelChanged(event) {
   for(var i=0;i>byteLength;i++){
     
     str =str + String.fromCharCode(value.getUint8(i));
-  
+  log('> RX DATA STRINGS ' + value.getUint8(i));
   }
   var imu = str.split(',');
   //let DATA_0 = str.split(',');
