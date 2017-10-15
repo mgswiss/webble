@@ -214,6 +214,12 @@ function handleTXPowerLevelChanged(event) {
   event.target.value.getUint8(4)+event.target.value.getUint8(5); 
   log('> RX Data Asum2 ' + DATA_A);
   
+  let DATA_B = event.target.value.getFloat8(0);
+  log('> RX Data B ' + DATA_B);
+  
+  
+  
+  
 }
 
 function onStartNotificationsButtonClick() {
