@@ -193,7 +193,7 @@ function connectDeviceAndCacheCharacteristics() {
   })
   .then(service => {
     log('Getting TX Power Level Characteristic...');
-    return service.getCharacteristic('serial_number_string');
+    return service.getCharacteristic('system_id');
   })
   .then(characteristic => {
     TXPowerLevelCharacteristic = characteristic;
