@@ -126,7 +126,7 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
   };
 </script>
 
-<h3>Live Output ops 2</h3>
+<h3>Live Output MG</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -151,6 +151,9 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
     
       <script>var bluetoothDevice;
 var TXPowerLevelCharacteristic;
+let yaw   = 0.0;
+let pitch = 0.0;
+let roll = 0.0;
 
 function onReadTXPowerLevelButtonClick() {
   return (bluetoothDevice ? Promise.resolve() : requestDevice())
@@ -221,12 +224,12 @@ function handleTXPowerLevelChanged(event) {
   }
   var imu = str.split(',');
   //let DATA_0 = str.split(',');
-  roll 		= parseFloat(imu[0]);
-		pitch 		= parseFloat(imu[1]);
-yaw = parseFloat(imu[2]);
+  roll  = parseFloat(imu[0]);
+  pitch = parseFloat(imu[1]);
+  yaw   = parseFloat(imu[2]);
   
   
-  log('> RX DATA STRINGS ' + roll +pitch+yaw);
+  log('> RX DATA STRINGS ' + roll + pitch + yaw);
   
   
  
