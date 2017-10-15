@@ -189,7 +189,7 @@ function connectDeviceAndCacheCharacteristics() {
     log('> Connected:        ' + bluetoothDevice.gatt.connected);
     log('> SENSIEL RESEARCH');
     log('Getting TX Power Service...');
-    return server.getPrimaryService('6E400003-B5A3-F393-E0A9-E50E24DCCA9E');
+    return server.getPrimaryService('6E400001-B5A3-F393-E0A9-E50E24DCCA9E');
   })
   .then(service => {
     log('Getting TX Power Level Characteristic...');
