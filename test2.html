@@ -156,7 +156,7 @@ function onReadTXPowerLevelButtonClick() {
   return (bluetoothDevice ? Promise.resolve() : requestDevice())
   .then(connectDeviceAndCacheCharacteristics)
   .then(_ => {
-    log('Reading TX Power Level...');
+    log('Reading TX Power Level...'+TXPowerLevelCharacteristic.readValue());
     return TXPowerLevelCharacteristic.readValue();
   })
   .catch(error => {
