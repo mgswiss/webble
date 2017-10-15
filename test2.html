@@ -213,6 +213,7 @@ function handleTXPowerLevelChanged(event) {
   
   var value = event.target.value;
   var str   = "";
+	let byteLength =20;
   for(var i=0;i>byteLength;i++){
     
     str =str + String.fromCharCode(value.getUint8(i));
