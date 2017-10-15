@@ -215,19 +215,19 @@ function connectDeviceAndCacheCharacteristics() {
  * listener has been added. */
 function handleTXPowerLevelChanged(event) {
   
-  var value = event.target.value;
-  var str   = "";
-	
-  for(var i=0;i>byteLength;i++){
-    
-    str =str + String.fromCharCode(value.getUint8(i));
-  log('> RX DATA STRINGS ' + value.getUint8(i));
-  }
-  var imu = str.split(',');
-  //let DATA_0 = str.split(',');
-  roll  = parseFloat(imu[0]);
-  pitch = parseFloat(imu[1]);
-  yaw   = parseFloat(imu[2]);
+ 		var value 	= event.target.value;
+		var str 	= "";
+
+		//concat and split string for roll, pitch, yaw (e.g. "-0.58,2.20,328.76")
+		for(var i=0; i<byteLength; i++){
+			str = str + String.fromCharCode(value.getUint8(i));
+		}
+		var imu = str.split(',');
+
+		//update globals
+		roll = imu[0];
+		pitch = parseFloat(imu[1]);
+                yaw = parseFloat(imu[2]);
   
   
   log('> RX DATA STRINGS ' + roll + pitch + yaw);
