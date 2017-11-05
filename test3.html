@@ -109,7 +109,7 @@
   };
 </script>
 
-<h3>Live Output MG 3/10</h3>
+<h3>Live Output MG 4/10</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -179,7 +179,8 @@ function connectDeviceAndCacheCharacteristics() {
     log('> Name:             ' + bluetoothDevice.name);
     log('> Id:               ' + bluetoothDevice.id);
     log('> Connected:        ' + bluetoothDevice.gatt.connected);
-    log('> SENSIEL RESEARCH');
+    
+     //log('> SENSIEL RESEARCH');
     //log('Getting TX Power Service...');
     return server.getPrimaryService('6E400001-B5A3-F393-E0A9-E50E24DCCA9E');
   })
