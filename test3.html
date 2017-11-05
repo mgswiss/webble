@@ -186,11 +186,17 @@ function connectDeviceAndCacheCharacteristics() {
     
      //log('> SENSIEL RESEARCH');
     log('Getting Service...');
-    return server.getPrimaryService('6E400001-B5A3-F393-E0A9-E50E24DCCA9E');
+   // return server.getPrimaryService('6E400001-B5A3-F393-E0A9-E50E24DCCA9E');
+    return server.getPrimaryService('6e400001-b5a3-f393-e0A9-e50E24dcca9e');
+	  
+	  
+	  
   })
   .then(service => {
     log('Getting Characteristic...');
-    return service.getCharacteristic('6E400003-B5A3-F393-E0A9-E50E24DCCA9E');
+    //return service.getCharacteristic('6E400003-B5A3-F393-E0A9-E50E24DCCA9E');
+	  return service.getCharacteristic('6e400003-b5a3-f393-e0A9-e50E24dcca9e');
+	  
   })
   .then(characteristic => {
 	 return characteristic.startNotifications()
