@@ -109,7 +109,7 @@
   };
 </script>
 
-<h3>Live Output MG 8/10</h3>
+<h3>Live Output MG 9/10</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -195,21 +195,27 @@ function connectDeviceAndCacheCharacteristics() {
   .then(characteristic => {
 	 return characteristic.startNotifications()
 	.then(_ => {
+		   TXPowerLevelCharacteristic = characteristic;
 	          characteristic.addEventListener('characteristicvaluechanged',
 			                        handleTXPowerLevelChanged);
 				});
-    //TXPowerLevelCharacteristic = characteristic;
+	  
+   .then(_ => {
+				console.log('Notifications have been started.');
+			})
+			.catch(error => { console.log(error); });
+
     
     //let test = TXPowerLevelCharacteristic.readValue();
     //let test_print= test.getUint8(0);  	
     //log('Characteristic Value...'+test);
-	  console.log('Notifications have been started.');
+	  
     
     //TXPowerLevelCharacteristic.addEventListener('characteristicvaluechanged',
       //  handleTXPowerLevelChanged);
     //document.querySelector('#startNotifications').disabled = false;
     //document.querySelector('#stopNotifications').disabled = true;
-  });
+ 
 }
 /* This function will be called when `readValue` resolves and
  * characteristic value changes since `characteristicvaluechanged` event
