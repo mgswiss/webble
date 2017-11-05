@@ -109,7 +109,7 @@
   };
 </script>
 
-<h3>Live Output MG 4/10</h3>
+<h3>Live Output MG 5/10</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -145,6 +145,9 @@
       <script>var bluetoothDevice;
 var TXPowerLevelCharacteristic
 var test;
+	      
+	      let byteLength		= 20;      
+	      
 	      
 function onReadTXPowerLevelButtonClick() {
   return (bluetoothDevice ? Promise.resolve() : requestDevice())
@@ -214,23 +217,23 @@ function handleTXPowerLevelChanged(event) {
   
  		var value 	= event.target.value;
 		//var str 	= "";
-               let byteLength =2;
-	//let row =0.0;
-	//let pitch =0.0;
-	//let yaw =0.0;
+               
+	let var1 =1.1;
+	let var2 =2.2;
+	let var3 =3.3;
 		//concat and split string for roll, pitch, yaw (e.g. "-0.58,2.20,328.76")
-		//for(var i=0; i<byteLength; i++){
-			//str = str + String.fromCharCode(value.getUint8(i));
-		//	value = value + value.getUint8(i);
-		//}
-		//var imu = str.split(',');
+		for(var i=0; i<byteLength; i++){
+			str = str + String.fromCharCode(value.getUint8(i));
+		
+		}
+		var imu = str.split(',');
 		//update globals
-		//roll = 77.123456;
-		//pitch = parseFloat(imu[1]);
-                //yaw = parseFloat(imu[2]);
-    value= value.getUint8(0)+value.getUint8(1)+value.getUint8(2)+value.getUint8(3);
+		var1 = parseFloat(imu[0]);
+		var2 = parseFloat(imu[1]);
+                var3 = parseFloat(imu[2]);
+    
   
-  log('> RX DATA STRINGS ' +value);
+  log('> RX DATA STRINGS ' +var1+var2+var3);
   
   
  
