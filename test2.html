@@ -126,7 +126,7 @@ currently partially implemented in Android M, Chrome OS, Linux, and Mac.</p>
   };
 </script>
 
-<h3>Live Output MG 1/10</h3>
+<h3>Live Output MG 2/10</h3>
 <div id="output" class="output">
   <div id="content"></div>
   <div id="status"></div>
@@ -201,7 +201,7 @@ function connectDeviceAndCacheCharacteristics() {
     TXPowerLevelCharacteristic = characteristic;
     let test = TXPowerLevelCharacteristic.readValue();
     let test_print= test.getUint8(0);  
-    log('Characteristic Value...'+test_print);
+    log('Characteristic Value...'+test);
     TXPowerLevelCharacteristic.addEventListener('characteristicvaluechanged',
         handleTXPowerLevelChanged);
     document.querySelector('#startNotifications').disabled = false;
